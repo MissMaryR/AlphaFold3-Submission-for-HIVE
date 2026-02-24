@@ -1,4 +1,4 @@
-#Instructions for AlphaFold3 Submission on HIVE
+# Instructions for AlphaFold3 Submission on HIVE
 
 ## 1) Depending on if you have a monomer or a multimer - set up your json files
    * upload all json files and submit_af3_bulk.py to a folder in HIVE
