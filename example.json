@@ -1,0 +1,20 @@
+{
+  "name": "name",
+  "sequences": [
+    {
+      "protein": {
+          "id": "A","B","C",
+        "sequence": "SEQUENCE"
+      }
+    },
+    {
+      "ligand": {
+        "id": "D",
+        "smiles": "CCC1=CC=C(C=C1)O"
+      }
+    }
+  ],
+  "modelSeeds": [1],
+  "dialect": "alphafold3",
+  "version": 1
+}
