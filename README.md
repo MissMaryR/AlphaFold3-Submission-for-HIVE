@@ -25,6 +25,13 @@ This guide walks through submitting AlphaFold3 (AF3) structure prediction jobs o
 
 ---
 
+## always run this after logging into HIVE
+```
+module load conda/latest
+module load cuda/12.6.2  
+```
+
+
 ## 1) Set Up Your JSON Files
 
 AF3 takes JSON files as input. Templates are provided for different prediction types — choose based on your system.
