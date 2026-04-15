@@ -8,7 +8,7 @@ This guide walks through submitting AlphaFold3 (AF3) structure prediction jobs o
 
 | Step | What You're Doing |
 |------|-------------------|
-| 1 | Set up JSON input files for your sequence(s) |
+| 1 | Set up JSON input files for your sequence(s) and ligand(s) |
 | 2 | Upload files to HIVE and submit as a SLURM array job |
 | 3 | Retrieve output, open in PyMOL, save as PDB, and relax for Rosetta |
 
@@ -21,12 +21,13 @@ This guide walks through submitting AlphaFold3 (AF3) structure prediction jobs o
 | `submit_af3_bulk.py` | Bulk submission script — finds all JSONs in a directory and submits as a SLURM array job |
 | `monomer.json` | Template for a single-chain protein prediction |
 | `trimer.json` | Template for a homotrimeric (3-chain) protein prediction |
+| `dock_CL3.json` | Example: protein–ligand docking input with cellulose DP3 (CL3) |
 
 ---
 
 ## 1) Set Up Your JSON Files
 
-AF3 takes JSON files as input. Two templates are provided — choose based on your system.
+AF3 takes JSON files as input. Templates are provided for different prediction types — choose based on your system.
 
 ### Monomer (single chain)
 
@@ -66,11 +67,47 @@ AF3 takes JSON files as input. Two templates are provided — choose based on yo
 }
 ```
 
+### Protein–Ligand Docking
+
+To dock a small molecule alongside your protein, add a `ligand` entry with a SMILES string. See `dock_CL3.json` for a working example using cellulose DP3.
+
+```json
+{
+  "name": "my_protein_ligand",
+  "sequences": [
+    {
+      "protein": {
+        "id": "A",
+        "sequence": "YOUR_SEQUENCE_HERE"
+      }
+    },
+    {
+      "ligand": {
+        "id": "B",
+        "smiles": "YOUR_SMILES_HERE"
+      }
+    }
+  ],
+  "modelSeeds": [1],
+  "dialect": "alphafold3",
+  "version": 1
+}
+```
+
+#### Oligosaccharide ligands
+
+The following oligosaccharide SMILES can be used as ligands directly in the `"smiles"` field:
+
+| Ligand | Name | SMILES |
+|--------|------|--------|
+| CL3 | Cellulose DP3 | `OC[C@H]3O[C@@H](O[C@H]2[C@H](O)[C@@H](O)[C@H](O[C@H]1[C@H](O)[C@@H](O)[C@H](O)O[C@@H]1CO)O[C@@H]2CO)[C@H](O)[C@@H](O)[C@@H]3O` |
+| CR3 | Curdlan DP3 | `OC[C@H]3O[C@@H](O[C@H]2[C@H](O)[C@@H](CO)O[C@@H](O[C@@H]1[C@@H](O)[C@H](O)O[C@H](CO)[C@H]1O)[C@@H]2O)[C@H](O)[C@@H](O)[C@@H]3O` |
+| XY3 | Xylan DP3 | `O[C@@H]3CO[C@@H](O[C@@H]2CO[C@@H](O[C@@H]1CO[C@@H](O)[C@H](O)[C@H]1O)[C@H](O)[C@H]2O)[C@H](O)[C@H]3O` |
+
 > 💡 **Tips for setting up JSON files:**
-> - Replace the `"sequence"` value with your protein's amino acid sequence
+> - Replace `"sequence"` with your protein's amino acid sequence
 > - Change `"name"` to something descriptive — this becomes the output subfolder name
-> - For a **monomer**, use `"id": ["A"]`
-> - For a **multimer**, list all chain IDs: e.g., `["A", "B"]` for a dimer, `["A", "B", "C"]` for a trimer
+> - For a **monomer**, use `"id": ["A"]`; for a **multimer**, list all chain IDs (e.g., `["A", "B", "C"]` for a trimer)
 > - If all chains are identical (homomultimer), you only need one sequence entry — just list all chain IDs
 > - `"modelSeeds": [1]` sets the random seed for reproducibility; change this or add more seeds to generate additional models
 > - Name each JSON file descriptively (e.g., `myenzyme_monomer.json`, `mycomplex_dimer.json`) — the filename is used to label the output
@@ -103,10 +140,12 @@ The script will:
 | Setting | Value |
 |---------|-------|
 | Partition | `low` |
-| Time limit | 24 hours |
+| Time limit | 2 hours |
 | CPUs | 8 per task |
 | Memory | 64 GB |
 | GPU | 1 per task |
+
+> 💡 For large complexes (>500 residues), uncomment the `--constraint` line in the generated `.sbatch` script to prioritize A100 or Blackwell GPUs.
 
 ### Monitor your job
 
