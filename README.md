@@ -194,6 +194,6 @@ Before using the model in Rosetta, run it through the relaxation pipeline:
 
 ➡️ [Relax PDBs for Rosetta](https://github.com/MissMaryR/Relax-pdbs-for-Rosetta)
 
-> ⚠️ Relaxation is important — AF3 models can have clashes or non-ideal geometry that will cause problems during Rosetta docking if not resolved first.
+> ⚠️ Relaxation is important — AF3 models are written differently than what Rosetta expects in a PDB. 
 
 Once relaxed, the PDB is ready to use as your enzyme input in the [Rosetta docking pipeline](https://github.com/MissMaryR/Rosetta-Docking) (Step 3).
