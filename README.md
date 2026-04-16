@@ -127,7 +127,7 @@ scp -r /path/to/local/folder username@hive.hpc.ucdavis.edu:/quobyte/jbsiegelgrp/
 Navigate to the folder containing your files, then run:
 
 ```bash
-python3 submit_af3_bulk.py /path/to/directory
+python submit_af3_bulk.py /path/to/directory
 ```
 
 The script will:
