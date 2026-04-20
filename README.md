@@ -135,15 +135,11 @@ The script will:
 2. Auto-generate a SLURM array job script (`af3_array_job.sbatch`)
 3. Submit the job — each JSON gets its own array task running in parallel
 
-### SLURM job settings (set automatically)
+Or run a single json file with:
 
-| Setting | Value |
-|---------|-------|
-| Partition | `low` |
-| Time limit | 2 hours |
-| CPUs | 8 per task |
-| Memory | 64 GB |
-| GPU | 1 per task |
+```bash
+sbatch submit_af3_single.sh /path/to/json/file.json
+```
 
 > 💡 For large complexes (>500 residues), uncomment the `--constraint` line in the generated `.sbatch` script to prioritize A100 or Blackwell GPUs.
 
