@@ -141,6 +141,12 @@ Or run a single json file with:
 sbatch submit_af3_single.sh /path/to/json/file.json
 ```
 
+Or run submit_af3_bulk with pae generation:
+```bash
+sbatch pae_af3_bulk.sh /path/to/directory
+```
+this will run it the same as the bulk script, but also outputs the pae png graph
+
 > 💡 For large complexes (>500 residues), uncomment the `--constraint` line in the generated `.sbatch` script to prioritize A100 or Blackwell GPUs.
 
 ### Monitor your job
