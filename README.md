@@ -49,6 +49,7 @@ AF3 takes JSON files as input. Templates are provided for different prediction t
 ```
 
 ### Multimer — example: homotrimer (3 identical chains)
+- i recommend using af3_bulk_pae.py with oligomers
 
 ```json
 {
